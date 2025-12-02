@@ -1,6 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.repositories.BidListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,12 +17,15 @@ import javax.validation.Valid;
 
 @Controller
 public class BidListController {
-    // TODO: Inject Bid service
+    @Autowired
+    private BidListRepository bidListRepository;
+    // TODO: Inject Bid service -OK
 
     @RequestMapping("/bidList/list")
     public String home(Model model)
     {
-        // TODO: call service find all bids to show to the view
+        model.addAttribute("bidLists", bidListRepository.findAll());
+        // TODO: call service find all bids to show to the view-OK
         return "bidList/list";
     }
 
@@ -30,7 +36,14 @@ public class BidListController {
 
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return bid list
+        if (result.hasErrors()) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            bid.setBidListId(bid.getBidListId());
+            bidListRepository.save(bid);
+            model.addAttribute("bidList", bidListRepository.findAll());
+            return "redirect:/user/list";
+        }
+        // TODO: check data valid and save to db, after saving return bid list -ok ?
         return "bidList/add";
     }
 
