@@ -1,5 +1,8 @@
 package com.nnk.springboot.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -10,6 +13,9 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "curvepoint")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CurvePoint {
 
     @Id
