@@ -3,7 +3,6 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,13 +16,13 @@ import javax.validation.Valid;
 
 @Controller
 public class BidListController {
+
     @Autowired
     private BidListRepository bidListRepository;
     // TODO: Inject Bid service -OK
 
     @RequestMapping("/bidList/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("bidLists", bidListRepository.findAll());
         // TODO: call service find all bids to show to the view-OK
         return "bidList/list";
@@ -36,33 +35,48 @@ public class BidListController {
 
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult result, Model model) {
+        // Si des erreurs de validation existent, retourner au formulaire
         if (result.hasErrors()) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            bid.setBidListId(bid.getBidListId());
-            bidListRepository.save(bid);
-            model.addAttribute("bidList", bidListRepository.findAll());
-            return "redirect:/user/list";
+            return "bidList/add";
         }
+
+        // Sauvegarder le bid et rediriger vers la liste
+        bidListRepository.save(bid);
         // TODO: check data valid and save to db, after saving return bid list -ok ?
-        return "bidList/add";
+        return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         // TODO: get Bid by Id and to model then show to the form
+        BidList bidList = bidListRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
+        model.addAttribute("bidList", bidList);
         return "bidList/update";
     }
 
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
-                             BindingResult result, Model model) {
+                            BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update Bid and return list Bid
+        // Si des erreurs de validation existent, retourner au formulaire
+        if (result.hasErrors()) {
+            bidList.setBidListId(id);
+            return "bidList/update";
+        }
+
+        // Mettre à jour l'ID et sauvegarder
+        bidList.setBidListId(id);
+        bidListRepository.save(bidList);
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         // TODO: Find Bid by Id and delete the bid, return to Bid list
+        BidList bidList = bidListRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
+        bidListRepository.delete(bidList);
         return "redirect:/bidList/list";
     }
 }

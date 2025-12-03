@@ -15,14 +15,14 @@ import javax.validation.Valid;
 
 @Controller
 public class RuleNameController {
+
     @Autowired
     private RuleNameRepository ruleNameRepository;
     // TODO: Inject RuleName service - ????
 
     @RequestMapping("/ruleName/list")
-    public String home(Model model)
-    {
-        model.addAttribute("ruleNameList",ruleNameRepository.findAll());
+    public String home(Model model) {
+        model.addAttribute("ruleNameList", ruleNameRepository.findAll());
         // TODO: find all RuleName, add to model -OK
         return "ruleName/list";
     }
@@ -34,38 +34,48 @@ public class RuleNameController {
 
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
+        // Si des erreurs de validation existent, retourner au formulaire
         if (result.hasErrors()) {
-            ruleNameRepository.save(ruleName);
-            return "redirect:/ruleName/list";
+            return "ruleName/add";
         }
+
+        // Sauvegarder le ruleName et rediriger vers la liste
+        ruleNameRepository.save(ruleName);
         // TODO: check data valid and save to db, after saving return RuleName list
-        return "ruleName/add";
+        return "redirect:/ruleName/list";
     }
 
     @GetMapping("/ruleName/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        RuleName ruleName = ruleNameRepository.findById(id).get();
-        ruleName.setId(ruleName.getId());
         // TODO: get RuleName by Id and to model then show to the form
+        RuleName ruleName = ruleNameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ruleName Id:" + id));
+        model.addAttribute("ruleName", ruleName);
         return "ruleName/update";
     }
 
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
-                             BindingResult result, Model model) {
+                                 BindingResult result, Model model) {
+        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
+        // Si des erreurs de validation existent, retourner au formulaire
         if (result.hasErrors()) {
+            ruleName.setId(id);
             return "ruleName/update";
         }
-        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
+
+        // Mettre à jour l'ID et sauvegarder
+        ruleName.setId(id);
+        ruleNameRepository.save(ruleName);
         return "redirect:/ruleName/list";
     }
 
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-        RuleName ruleName = ruleNameRepository.findById(id).get();
-        ruleNameRepository.delete(ruleName);
-        model.addAttribute("ruleNameList",ruleNameRepository.findAll());
         // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
+        RuleName ruleName = ruleNameRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid ruleName Id:" + id));
+        ruleNameRepository.delete(ruleName);
         return "redirect:/ruleName/list";
     }
 }

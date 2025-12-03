@@ -3,7 +3,6 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,14 +15,14 @@ import javax.validation.Valid;
 
 @Controller
 public class CurveController {
+
     @Autowired
     private CurvePointRepository curvePointRepository;
     // TODO: Inject Curve Point service -OK
 
     @RequestMapping("/curvePoint/list")
-    public String home(Model model)
-    {
-        model.addAttribute("curvePoints",curvePointRepository.findAll());
+    public String home(Model model) {
+        model.addAttribute("curvePoints", curvePointRepository.findAll());
         // TODO: find all Curve Point, add to model-OK
         return "curvePoint/list";
     }
@@ -35,38 +34,48 @@ public class CurveController {
 
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            curvePointRepository.save(curvePoint);
-            return "redirect:/curvePoint/list";
+        // Si des erreurs de validation existent, retourner au formulaire
+        if (result.hasErrors()) {
+            return "curvePoint/add";
         }
+
+        // Sauvegarder le curvePoint et rediriger vers la liste
+        curvePointRepository.save(curvePoint);
         // TODO: check data valid and save to db, after saving return Curve list - OKK
-        return "curvePoint/add";
+        return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        CurvePoint curvePoint = curvePointRepository.findById(id).get();
-        curvePoint.setCurveId(curvePoint.getCurveId());
         // TODO: get CurvePoint by Id and to model then show to the form -OK
+        CurvePoint curvePoint = curvePointRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
+        model.addAttribute("curvePoint", curvePoint);
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
-                             BindingResult result, Model model) {
-        if (!result.hasErrors()) {
+                            BindingResult result, Model model) {
+        // TODO: check required fields, if valid call service to update Curve and return Curve list -ok ?
+        // Si des erreurs de validation existent, retourner au formulaire
+        if (result.hasErrors()) {
+            curvePoint.setId(id);
             return "curvePoint/update";
         }
-        // TODO: check required fields, if valid call service to update Curve and return Curve list -ok ?
+
+        // Mettre à jour l'ID et sauvegarder
+        curvePoint.setId(id);
+        curvePointRepository.save(curvePoint);
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        CurvePoint curvePoint = curvePointRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id"));
-        curvePointRepository.delete(curvePoint);
-        model.addAttribute("curvePoints", curvePointRepository.findAll());
         // TODO: Find Curve by Id and delete the Curve, return to Curve list -OK ?
+        CurvePoint curvePoint = curvePointRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid curvePoint Id:" + id));
+        curvePointRepository.delete(curvePoint);
         return "redirect:/curvePoint/list";
     }
 }
