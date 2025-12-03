@@ -37,7 +37,7 @@ public class CurveController {
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
         if (!result.hasErrors()) {
             curvePointRepository.save(curvePoint);
-            return "redirect:/curvePoint/add";
+            return "redirect:/curvePoint/list";
         }
         // TODO: check data valid and save to db, after saving return Curve list - OKK
         return "curvePoint/add";
