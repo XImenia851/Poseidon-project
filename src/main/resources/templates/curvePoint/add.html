@@ -1,26 +1,59 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>Home</title>
-<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" >
 </head>
 <body>
 <div class="container">
 
-	<div class="row">
-		<h2>Add New Curve Point</h2>
-	</div>
+    <div class="row">
+        <h2>Add New Curve Point</h2>
+    </div>
 
-	<div class="row">
-		<form action="#" th:action="@{/curvePoint/validate}" th:object="${curvePoint}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to input the values of CurvePoint, there are 2 buttons: Save data and Cancel to the list CurvePoint
-			 -->
+    <div class="row">
+        <form action="#" th:action="@{/curvePoint/validate}" th:object="${curvePoint}" method="post" class="form-horizontal" style="width: 100%">
+            <!-- TODO: Create a form to input the values of Bid, there are 2 buttons: Save data and Cancel to the list Bid-->
 
-		</form>
-	</div>
+            <!-- Champ Curve Id -->
+            <div class="form-group">
+                <label for="curveId" class="col-sm-2 control-label">Curve Id:</label>
+                <div class="col-sm-10">
+                    <input type="number" th:field="*{curveId}" id="curveId" class="form-control" placeholder="Curve Id" required/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('curveId')}" th:errors="*{curveId}"></p>
+                </div>
+            </div>
+
+            <!-- Champ Term -->
+            <div class="form-group">
+                <label for="term" class="col-sm-2 control-label">Term:</label>
+                <div class="col-sm-10">
+                    <input type="number" th:field="*{term}" id="term" class="form-control" placeholder="Term" step="0.01" required/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('term')}" th:errors="*{term}"></p>
+                </div>
+            </div>
+
+            <!-- Champ Value -->
+            <div class="form-group">
+                <label for="value" class="col-sm-2 control-label">Value:</label>
+                <div class="col-sm-10">
+                    <input type="number" th:field="*{value}" id="value" class="form-control" placeholder="Value" step="0.01" required/>
+                    <p class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
+                </div>
+            </div>
+
+            <!-- Boutons Save et Cancel -->
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <a th:href="@{/curvePoint/list}" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
 
 </div>
 </body>

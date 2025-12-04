@@ -24,23 +24,21 @@ public class CurvePoint {
     private Integer id;
 
 
-    @NotBlank
-    @Column(name = "curveId")
+    @NotNull
+    @Column(name = "curve_id")
     private Integer curveId;
 
-    @NotBlank
-    @Column(name = "asOfDate")
+    @Column(name = "as_of_date")
     private Timestamp asOfDate;
 
-    @NotBlank
+    @NotNull
     @Column(name = "term")
     private Double term;
 
-    @NotBlank
+    @NotNull
     @Column(name = "value")
     private Double value;
 
-    @NotBlank
-    @Column(name = "creationDate")
+    @Column(name = "creation_date")
     private Timestamp creationDate;
 }

@@ -20,7 +20,7 @@ public class CurveController {
     private CurvePointRepository curvePointRepository;
     // TODO: Inject Curve Point service -OK
 
-    @RequestMapping("/curvePoint/list")
+    @GetMapping("/curvePoint/list")
     public String home(Model model) {
         model.addAttribute("curvePoints", curvePointRepository.findAll());
         // TODO: find all Curve Point, add to model-OK
@@ -38,7 +38,6 @@ public class CurveController {
         if (result.hasErrors()) {
             return "curvePoint/add";
         }
-
         // Sauvegarder le curvePoint et rediriger vers la liste
         curvePointRepository.save(curvePoint);
         // TODO: check data valid and save to db, after saving return Curve list - OKK
