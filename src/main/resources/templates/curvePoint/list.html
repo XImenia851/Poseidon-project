@@ -38,9 +38,28 @@
 			</thead>
 			<tbody>
 			<!-- TODO: Show all CurvePoint to the table, the action column will have Edit & Delete buttons -->
-			</tbody>
-		</table>
-	</div>
+            <tr th:each="point : ${curvePoints}">
+                <!--l'instruction qui parcourt la liste d'objets-->
+
+                <!-- Champs-->
+               <td th:text="${point.id}"></td>
+               <td th:text="${point.curveId}"></td>
+               <td th:text="${point.term}"></td>
+               <td th:text="${point.value}"></td>
+
+                <!-- Edit & Delete -->
+               <td>
+                   <a th:href="@{/curvePoint/update/{id}(id=${point.id})}"
+                      class="btn btn-primary btn-sm">Edit</a>
+
+                   <a th:href="@{/curvePoint/delete/{id}(id=${point.id})}"
+                      class="btn btn-danger btn-sm"
+                      onclick="return confirm('Are you sure?')">Delete</a>
+               </td>
+           </tr>
+           </tbody>
+       </table>
+   </div>
 </div>
 </body>
 </html>
