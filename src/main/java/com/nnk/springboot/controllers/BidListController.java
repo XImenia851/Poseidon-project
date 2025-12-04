@@ -29,7 +29,8 @@ public class BidListController {
     }
 
     @GetMapping("/bidList/add")
-    public String addBidForm(BidList bid) {
+    public String showAddForm(Model model) {
+        model.addAttribute("bidList", new BidList()); // Crée un nouvel objet BidList
         return "bidList/add";
     }
 
