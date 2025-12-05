@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
-
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "trade")
@@ -21,84 +20,16 @@ public class Trade {
     @Column(name = "tradeId")
     private Integer tradeId;
 
-    @NotBlank
+    @NotBlank(message = "Account is mandatory")
     @Column(name = "account", length = 30, nullable = false)
     private String account;
 
-    @NotBlank
+    @NotBlank(message = "Type is mandatory")
     @Column(name = "type", length = 30, nullable = false)
     private String type;
 
-    @NotBlank
+    // Utilisation de Double pour permettre la validation @NotNull
+    @NotNull(message = "Buy Quantity is mandatory")
     @Column(name = "buyQuantity")
-    private double buyQuantity;
-
-    @NotBlank
-    @Column(name = "sellQuantity")
-    private double sellQuantity;
-
-    @NotBlank
-    @Column(name = "buyPrice")
-    private double buyPrice;
-
-    @NotBlank
-    @Column(name = "sellPrice")
-    private double sellPrice;
-
-    @NotBlank
-    @Column(name = "benchmark", length = 30, nullable = false)
-    private String benchmark;
-
-    @NotBlank
-    @Column(name = "tradeDate")
-    private Timestamp tradeDate;
-
-    @NotBlank
-    @Column(name = "security", length = 30, nullable = false)
-    private String security;
-
-    @NotBlank
-    @Column(name = "status", length = 30, nullable = false)
-    private String status;
-
-    @NotBlank
-    @Column(name = "trader", length = 30, nullable = false)
-    private String trader;
-
-    @NotBlank
-    @Column(name = "book", length = 30, nullable = false)
-    private String book;
-
-    @NotBlank
-    @Column(name = "creationName", length = 30, nullable = false)
-    private String creationName;;
-
-    @NotBlank
-    @Column(name = "creationDate")
-    private Timestamp creationDate;
-
-    @NotBlank
-    @Column(name = "revisionName", length = 30, nullable = false)
-    private String revisionName;
-
-    @NotBlank
-    @Column(name = "revisionDate")
-    private Timestamp revisionDate;
-
-    @NotBlank
-    @Column(name = "dealName")
-    private String dealName;
-
-    @NotBlank
-    @Column(name = "dealType")
-    private Timestamp dealType;
-
-    @NotBlank
-    @Column(name = "sourceListId")
-    private String sourceListId;
-
-    @NotBlank
-    @Column(name = "side", length = 30, nullable = false)
-    private String side;
-
+    private Double buyQuantity;
 }
