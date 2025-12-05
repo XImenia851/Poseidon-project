@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trade")
@@ -42,44 +43,44 @@ public class Trade {
     private Double sellPrice;
 
     @Column(name = "benchmark")
-    private String benchmark = "";  // Valeur par défaut
+    private String benchmark = "";
 
     @Column(name = "tradeDate")
     private java.sql.Timestamp tradeDate;
 
     @Column(name = "security")
-    private String security = "";  // Valeur par défaut
+    private String security = "";
 
     @Column(name = "status")
-    private String status = "";  // Valeur par défaut
+    private String status = "";
 
     @Column(name = "trader")
-    private String trader = "";  // Valeur par défaut
+    private String trader = "";
 
     @Column(name = "book")
-    private String book = "";  // Valeur par défaut - C'EST LE PROBLÈME ACTUEL
+    private String book = "";
 
     @Column(name = "creationName")
-    private String creationName = "";  // Valeur par défaut
+    private String creationName = "";
 
     @Column(name = "creationDate")
     private java.sql.Timestamp creationDate;
 
     @Column(name = "revisionName")
-    private String revisionName = "";  // Valeur par défaut
+    private String revisionName = "";
 
     @Column(name = "revisionDate")
     private java.sql.Timestamp revisionDate;
 
     @Column(name = "dealName")
-    private String dealName = "";  // Valeur par défaut
+    private String dealName = "";
 
-    @Column(name = "dealType")
-    private String dealType = "";  // Valeur par défaut
+    @Column(name = "deal_type")
+    private LocalDateTime dealType;
 
     @Column(name = "sourceListId")
-    private String sourceListId = "";  // Valeur par défaut
+    private String sourceListId = "";
 
     @Column(name = "side")
-    private String side = "";  // Valeur par défaut
+    private String side = "";
 }

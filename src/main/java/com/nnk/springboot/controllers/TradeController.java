@@ -36,10 +36,11 @@ public class TradeController {
     public String validate(@Valid Trade trade, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Trade list
         if (!result.hasErrors()) {
-            return "trade/add";
+            tradeRepository.save(trade);
+            model.addAttribute("trade", tradeRepository.findAll());
+            return "redirect:/trade/list";
         }
-        tradeRepository.save(trade);
-        return "redirect:/trade/list";
+        return "trade/add";
     }
 
     @GetMapping("/trade/update/{id}")
