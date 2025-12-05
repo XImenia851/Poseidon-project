@@ -22,18 +22,18 @@ public class Rating {
     private Integer id;
 
     @NotBlank
-    @Column(name = "moodysRating", length = 30, nullable = false)
-    private String mooodysRating;
+    @Column(name = "moodys_rating", length = 30, nullable = false)
+    private String moodysRating;
 
     @NotBlank
-    @Column(name = "sandRating", length = 30, nullable = false)
+    @Column(name = "sand_rating", length = 30, nullable = false)
     private String sandRating;
 
     @NotBlank
-    @Column(name = "fitchRating", length = 30, nullable = false)
+    @Column(name = "fitch_rating", length = 30, nullable = false)
     private String fitchRating;
 
-    @NotBlank
-    @Column(name = "orderNumber")
+    @NotNull
+    @Column(name = "order_number")
     private Integer orderNumber;
 }

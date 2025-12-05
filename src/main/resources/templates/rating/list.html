@@ -1,64 +1,75 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>Home</title>
-<link rel="stylesheet" href="../../css/bootstrap.min.css" >
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" >
 </head>
 <body>
 <div class="container">
-	<div class="row">
-		<div class="col-6">
-			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
-			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
-			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
-			<a href="/ruleName/list">Rule</a>
-		</div>
-		<div class="col-6 text-right">
-			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
-				<input type="submit" value="Logout"/>
-			</form>
-		</div>
-	</div>
-	<div class="row"><h2>Rating List</h2></div>
-	<div class="row">
-		<a href="/rating/add" class="btn btn-primary btn-sm">Add New</a>
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>MoodysRating</th>
-					<th>SandPRating</th>
-					<th>FitchRating</th>
-					<th>Order</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-			<!-- TODO: Show all Rating to the table, the Action column will have Edit & Delete buttons -->
-            <tr th:each="rating : ${ratingList}">
+    <div class="row">
+        <div class="col-6">
+            <a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
+            <a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
+            <a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
+            <a href="/trade/list">Trade</a>&nbsp;|&nbsp;
+            <a href="/ruleName/list">Rule</a>
+        </div>
+        <div class="col-6 text-right">
+            <form th:action="@{/app-logout}" method="POST">
+                <input type="submit" value="Logout"/>
+            </form>
+        </div>
+    </div>
 
-            <td th:text="${rating.id}"></td>
-            <td th:text="${rating.rating}"></td>
-            <td th:text="${rating.sandRating}"></td>
-            <td th:text="${rating.fitchRating}"></td>
-            <td th:text="${rating.order}"></td>
+    <div class="row"><h2>Rating List</h2></div>
 
-            <td>
-            <a th:href="@{/curvePoint/update/{id}(id=${rating.id})}"
-            class="btn btn-primary btn-sm">Edit</a>
-
-            <a th:href="@{/curvePoint/delete/{id}(id=${rating.id})}"
-               class="btn btn-danger btn-sm"
-            onclick="return confirm ('are u sure ,')">Delete</a>
-            </td>
+    <div class="row">
+        <a href="/rating/add" class="btn btn-primary btn-sm">Add New</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Moody's Rating</th>
+                <th>S&P Rating</th>
+                <th>Fitch Rating</th>
+                <th>Order</th>
+                <th>Action</th>
             </tr>
-			</tbody>
-		</table>
-	</div>
+            </thead>
+            <tbody>
+
+            <tr th:each="rating : ${ratings}">
+
+                <td th:text="${rating.id}">1</td>
+
+                <td th:text="${rating.moodysRating}">Aaa</td>
+
+                <td th:text="${rating.sandRating}">AAA</td>
+
+                <td th:text="${rating.fitchRating}">AAA</td>
+
+                <td th:text="${rating.orderNumber}">1</td>
+
+                <td>
+                    <a th:href="@{/rating/update/{id}(id=${rating.id})}"
+                       class="btn btn-primary btn-sm">Edit</a>
+
+                    <a th:href="@{/rating/delete/{id}(id=${rating.id})}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this rating?')">Delete</a>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(ratings)}">
+                <td colspan="6" style="text-align: center; color: #999;">
+                    No ratings available. Add one!
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
