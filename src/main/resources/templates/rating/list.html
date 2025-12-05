@@ -39,6 +39,23 @@
 			</thead>
 			<tbody>
 			<!-- TODO: Show all Rating to the table, the Action column will have Edit & Delete buttons -->
+            <tr th:each="rating : ${ratingList}">
+
+            <td th:text="${rating.id}"></td>
+            <td th:text="${rating.rating}"></td>
+            <td th:text="${rating.sandRating}"></td>
+            <td th:text="${rating.fitchRating}"></td>
+            <td th:text="${rating.order}"></td>
+
+            <td>
+            <a th:href="@{/curvePoint/update/{id}(id=${rating.id})}"
+            class="btn btn-primary btn-sm">Edit</a>
+
+            <a th:href="@{/curvePoint/delete/{id}(id=${rating.id})}"
+               class="btn btn-danger btn-sm"
+            onclick="return confirm ('are u sure ,')">Delete</a>
+            </td>
+            </tr>
 			</tbody>
 		</table>
 	</div>
