@@ -28,8 +28,58 @@ public class Trade {
     @Column(name = "type", length = 30, nullable = false)
     private String type;
 
-    // Utilisation de Double pour permettre la validation @NotNull
     @NotNull(message = "Buy Quantity is mandatory")
     @Column(name = "buyQuantity")
     private Double buyQuantity;
+
+    @Column(name = "sellQuantity")
+    private Double sellQuantity;
+
+    @Column(name = "buyPrice")
+    private Double buyPrice;
+
+    @Column(name = "sellPrice")
+    private Double sellPrice;
+
+    @Column(name = "benchmark")
+    private String benchmark = "";  // Valeur par défaut
+
+    @Column(name = "tradeDate")
+    private java.sql.Timestamp tradeDate;
+
+    @Column(name = "security")
+    private String security = "";  // Valeur par défaut
+
+    @Column(name = "status")
+    private String status = "";  // Valeur par défaut
+
+    @Column(name = "trader")
+    private String trader = "";  // Valeur par défaut
+
+    @Column(name = "book")
+    private String book = "";  // Valeur par défaut - C'EST LE PROBLÈME ACTUEL
+
+    @Column(name = "creationName")
+    private String creationName = "";  // Valeur par défaut
+
+    @Column(name = "creationDate")
+    private java.sql.Timestamp creationDate;
+
+    @Column(name = "revisionName")
+    private String revisionName = "";  // Valeur par défaut
+
+    @Column(name = "revisionDate")
+    private java.sql.Timestamp revisionDate;
+
+    @Column(name = "dealName")
+    private String dealName = "";  // Valeur par défaut
+
+    @Column(name = "dealType")
+    private String dealType = "";  // Valeur par défaut
+
+    @Column(name = "sourceListId")
+    private String sourceListId = "";  // Valeur par défaut
+
+    @Column(name = "side")
+    private String side = "";  // Valeur par défaut
 }
